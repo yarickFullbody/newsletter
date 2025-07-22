@@ -24,3 +24,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "email", "gender", "first_name", "last_name") 
+
+class UserSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("is_subscribed",) 
