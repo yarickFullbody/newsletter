@@ -11,7 +11,7 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
+            _ = serializer.save()
             data = serializer.data
             data.pop('password', None) 
             return Response(data, status=status.HTTP_201_CREATED)
