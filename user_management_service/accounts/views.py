@@ -14,7 +14,7 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            _ = serializer.save()
+            serializer.save()
             data = serializer.data
             data.pop('password', None) 
             return Response(data, status=status.HTTP_201_CREATED)
@@ -41,19 +41,16 @@ class UserSubscriptionToggleView(APIView):
     def post(self, request):
         user = request.user
         user.is_subscribed = not user.is_subscribed
-        user.save()
         
         message = {
             "email": user.email,
             "subscription_status": user.is_subscribed
         }
-        kafka_conf = {
-            'bootstrap.servers': settings.KAFKA_BOOTSTRAP_SERVERS
-        }
-        producer = Producer(kafka_conf)
+        producer = Producer({'bootstrap.servers': settings.KAFKA_BOOTSTRAP_SERVERS})
         producer.produce(
             topic="subscription_updates",
             value=json.dumps(message).encode('utf-8')
         )
         producer.flush()
+        user.save()
         return Response({"is_subscribed": user.is_subscribed})
