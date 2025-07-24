@@ -15,6 +15,7 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             data = serializer.data
             data.pop('password', None) 
             return Response(data, status=status.HTTP_201_CREATED)

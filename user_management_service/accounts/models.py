@@ -8,5 +8,5 @@ class User(AbstractUser):
     is_subscribed = models.BooleanField(
         default = False,
         null = False,
-        verbose_name="Subscribed"
+        verbose_name="Subscribed",
     )
