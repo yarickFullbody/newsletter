@@ -19,9 +19,11 @@ services:
       POSTGRES_DB: users
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
+      POSTGRES_MULTIPLE_DATABASES: mailer_db
     ports: 
       - "5433:5432"
     volumes:
+      - ${PWD}/docker/images/init-db-real.sh:/docker-entrypoint-initdb.d/init-db-real.sh
       - postgres_data:/var/lib/postgresql/data
 
   zookeeper:
