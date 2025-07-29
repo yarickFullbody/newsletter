@@ -10,8 +10,13 @@ services:
     build:
       context: ../mailer_service
       dockerfile: ../docker/images/mailer.Dockerfile
+    env_file:
+      - ../mailer_service/.env
     ports:
       - "8001:8000"
+    depends_on:
+      kafka:
+        condition: service_healthy
 
   postgres:
     image: postgres:17
@@ -47,6 +52,11 @@ services:
       - "9092:9092"
     depends_on: 
       - zookeeper
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   redis:
     image: redis:7.2
