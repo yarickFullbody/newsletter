@@ -2,13 +2,13 @@ import os
 import json
 from aiokafka import AIOKafkaConsumer
 import aioredis
-from dotenv import load_dotenv
+from .settings import Settings
 
-load_dotenv()
+settings = Settings()
 
-KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
-KAFKA_TOPIC = os.getenv("KAFKA_TOPIC")
-REDIS_URL = os.getenv("REDIS_URL")
+KAFKA_BOOTSTRAP_SERVERS = settings.kafka_bootstrap_servers
+KAFKA_TOPIC = settings.kafka_topic
+REDIS_URL = settings.redis_url
 
 async def handle_message(redis, email: str, is_subscribed: bool):
     if is_subscribed:
