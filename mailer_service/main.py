@@ -6,11 +6,13 @@ from core.views.execute_log import router as execute_log_router
 import asyncio
 from core.kafka_consumer import consume
 from contextlib import asynccontextmanager
+from core.scheduler import start_scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     loop = asyncio.get_event_loop()
     loop.create_task(consume())
+    start_scheduler()
     yield
 
 app = FastAPI(lifespan=lifespan)
