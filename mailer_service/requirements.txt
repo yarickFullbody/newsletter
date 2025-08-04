@@ -10,3 +10,4 @@ aioredis==2.0.1
 apscheduler==3.11.0
 python-dotenv==1.0.0
 pydantic-settings==2.8.1
+aiosmtplib==3.0.2
